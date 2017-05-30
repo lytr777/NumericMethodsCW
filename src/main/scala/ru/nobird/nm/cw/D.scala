@@ -21,7 +21,13 @@ object D {
     def D_AlCl2(T: Double) : Double = prepareD(Elements.AlCl2)(T)
     def D_AlCl3(T: Double) : Double = prepareD(Elements.AlCl3)(T)
 
+    def D_GaCl(T: Double) : Double = prepareD(Elements.GaCl)(T)
+    def D_GaCl2(T: Double) : Double = prepareD(Elements.GaCl2)(T)
+    def D_GaCl3(T: Double) : Double = prepareD(Elements.GaCl3)(T)
+
+    def D_NH3(T: Double) : Double = prepareD(Elements.NH3)(T)
     def D_H2(T: Double) : Double = prepareD(Elements.H2)(T)
     def D_HCl(T: Double) : Double = prepareD(Elements.HCl)(T)
 
+    def D_N2(T: Double) : Double = prepareD(Elements.N2)(T)
 }

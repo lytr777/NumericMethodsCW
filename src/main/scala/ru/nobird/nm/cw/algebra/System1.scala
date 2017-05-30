@@ -33,7 +33,7 @@ object System1 {
         Array(
             Array(-2 * K.K1(T) * P_E.P_AlCl * P_E.P_H2, 0, 0, 0, -D.D_AlCl(T)),
             Array(0, -K.K2(T) * P_E.P_H2, 0, 0, -2 * D.D_AlCl2(T)),
-            Array(0, 0, -2 * K.K3(T) * P_E.P_AlCl3 * Math.pow(P_E.P_H2, 3), 0, -D.D_AlCl3(T)),
+            Array(0, 0, -2 * K.K3(T) * P_E.P_AlCl3 * Math.pow(P_E.P_H2, 3), 0, -3 * D.D_AlCl3(T)),
             Array(2 * P_E.P_HCl, 2 * P_E.P_HCl, 6 * Math.pow(P_E.P_HCl, 5), -D.D_HCl(T), -D.D_HCl(T)),
             Array(-K.K1(T) * Math.pow(P_E.P_AlCl, 2), -K.K2(T) * P_E.P_AlCl2, -3 * K.K3(T) * Math.pow(P_E.P_AlCl3 * P_E.P_H2, 2), -2 * D.D_H2(T), 0)
         )

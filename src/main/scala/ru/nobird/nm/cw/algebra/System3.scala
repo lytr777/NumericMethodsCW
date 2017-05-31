@@ -13,7 +13,9 @@ object System3 {
         def toArray: Array[Double] = Array(P_AlCl3, P_GaCl, P_NH3, P_HCl, P_H2)
     }
 
-    //private lazy val DP_G = Pressures(0, 0, 1500, 0, 0) // там говно в условии
+    private def DP_G(H2_part: Double, xg: Double): Pressures = {
+        Pressures(30 * xg, 30 * (1 - xg), 1500, 98470 * (1 - H2_part), 98470 * H2_part)
+    }
 
     private def preF(T: Double, P_G: Pressures) = (P_E: Pressures, x: Double) =>
         Array(

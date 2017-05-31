@@ -5,7 +5,7 @@ package ru.nobird.nm.cw.algebra
   */
 
 object Matrix {
-    def EPS = 0.0001
+    def EPS = 0.001
 
     def E(s: Int): Array[Array[Double]] = {
         val m = Array.fill(s){Array.fill(s){0.0}}

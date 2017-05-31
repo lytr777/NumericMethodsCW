@@ -49,12 +49,14 @@ object System2 {
             x0 - Pressures(x_a(0), x_a(1), x_a(2), x_a(3), x_a(4))
         }
 
-        var x = Pressures(1, 1, 1, 1, 1)
+        var x = Pressures(5, 5, 5, 5, 5)
         var y = iterate(x)
 
-        while ((x - y).toArray.map{ Math.abs }.max > Matrix.EPS) {
+        var counter = 0
+        while ((x - y).toArray.map{ Math.abs }.max > Matrix.EPS && counter < 100000) {
             x = y
             y = iterate(y)
+            counter += 1
         }
 
         y

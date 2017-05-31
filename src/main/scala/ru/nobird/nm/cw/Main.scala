@@ -26,7 +26,7 @@ object Main extends App with scalax.chart.module.Charting  {
 
         val dataset = new XYSeriesCollection()
 
-        for (t <- 350 until 700 by 10) {
+        for (t <- 350 until 650 by 10) {
             val T = t + 273.15
             val ans = System1.solve(T)
 
@@ -82,11 +82,11 @@ object Main extends App with scalax.chart.module.Charting  {
 
         val dataset = new XYSeriesCollection()
 
-        for (t <- 350 until 700 by 10) {
+        for (t <- 650 until 950 by 10) {
             val T = t + 273.15
+            println("T: " + T)
             val ans = System2.solve(T)
 
-            println("T: " + T)
             println(ans)
 
             val G_H2 = D.D_H2(T) * (System2.DP_G.P_H2 - ans.P_H2) / Constants.R / T / 0.01
@@ -130,7 +130,6 @@ object Main extends App with scalax.chart.module.Charting  {
         chart.plot.setDataset(dataset)
         chart.show()
     }
-
 
     override def main(args: Array[String]): Unit = {
 

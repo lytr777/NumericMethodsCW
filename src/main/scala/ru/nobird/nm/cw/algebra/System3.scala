@@ -13,13 +13,13 @@ object System3 {
         def toArray: Array[Double] = Array(P_AlCl3, P_GaCl, P_NH3, P_HCl, P_H2, x)
     }
 
-    private def DP_G(H2_part: Double, xg: Double): Pressures = {
-        Pressures(30 * xg, 30 * (1 - xg), 1500, 98470 * (1 - H2_part), 98470 * H2_part, 0)
+    def DP_G(H2_part: Double, xg: Double): Pressures = {
+        Pressures(30 * xg, 30 * (1 - xg), 1500, 0, 98470 * H2_part, 0)
     }
 
     private def preF(T: Double, P_G: Pressures) = (P_E: Pressures) =>
         Array(
-            P_E.P_AlCl3 * P_E.P_NH3 - K.K4(T) * P_E.x * Math.pow(P_E.P_HCl, 3),
+            P_E.P_AlCl3 * P_E.P_NH3 - K.K9(T) * P_E.x * Math.pow(P_E.P_HCl, 3),
             P_E.P_GaCl * P_E.P_NH3 - K.K10(T) * (1 - P_E.x) * P_E.P_HCl * P_E.P_H2,
 
             D.D_HCl(T) * (P_G.P_HCl - P_E.P_HCl) + 2 * D.D_H2(T) * (P_G.P_H2 - P_E.P_H2)
@@ -59,7 +59,7 @@ object System3 {
             x0 - Pressures(x_a(0), x_a(1), x_a(2), x_a(3), x_a(4), x_a(5))
         }
 
-        var x = Pressures(1, 1, 1, 1, 1, 1)
+        var x = Pressures(1, 1, 1000, 1, 1, 1)
         var y = iterate(x)
 
         while ((x - y).toArray.map{ Math.abs }.max > Matrix.EPS) {

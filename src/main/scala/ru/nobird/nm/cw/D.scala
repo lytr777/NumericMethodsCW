@@ -14,7 +14,7 @@ object D {
     private def omega(x: Double) = 1.074 * Math.pow(x, -0.1604)
 
     private def prepareD(e: Element) = (T: Double) =>
-        2.628 * 0.01 * Math.pow(T, 3 / 2) / (Constants.Pa * sigma(e) * omega(T / eps(e)) * Math.sqrt(mu(e)))
+        2.628 * 0.01 * Math.pow(T, 1.5) / (Constants.Pa * sigma(e) * omega(T / eps(e)) * Math.sqrt(mu(e)))
 
 
     def D_AlCl(T: Double) : Double = prepareD(Elements.AlCl)(T)

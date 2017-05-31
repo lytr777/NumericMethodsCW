@@ -1,9 +1,13 @@
 package ru.nobird.nm.cw
 
+import ru.nobird.nm.cw.algebra.{System1, System2}
+
+import scala.collection.mutable
+
 /**
   * Created by ruslandavletshin on 30/05/2017.
   */
-object Main {
+object Main extends App with scalax.chart.module.Charting  {
 
     private def X(T: Double) = T / Math.pow(10, 4)
 
@@ -14,12 +18,123 @@ object Main {
         e.H - preparePhi(e)(X(T)) * T
 
 
+    private def display1() = {
+        var a: mutable.ArrayBuffer[(Double, Double)] = mutable.ArrayBuffer()
+        var b: mutable.ArrayBuffer[(Double, Double)] = mutable.ArrayBuffer()
+        var c: mutable.ArrayBuffer[(Double, Double)] = mutable.ArrayBuffer()
+        var d: mutable.ArrayBuffer[(Double, Double)] = mutable.ArrayBuffer()
+
+        val dataset = new XYSeriesCollection()
+
+        for (t <- 350 until 700 by 10) {
+            val T = t + 273.15
+            val ans = System1.solve(T)
+
+            println(ans)
+
+            val G_H2 = D.D_H2(T) * (System1.DP_G.P_H2 - ans.P_H2) / Constants.R / T / 0.01
+            val G_HCl = D.D_HCl(T) * (System1.DP_G.P_HCl - ans.P_HCl) / Constants.R / T / 0.01
+            val G_AlCl = D.D_AlCl(T) * (System1.DP_G.P_AlCl - ans.P_AlCl) / Constants.R / T / 0.01
+            val G_AlCl2 = D.D_AlCl2(T) * (System1.DP_G.P_AlCl2 - ans.P_AlCl2) / Constants.R / T / 0.01
+            val G_AlCl3 = D.D_AlCl3(T) * (System1.DP_G.P_AlCl3 - ans.P_AlCl3) / Constants.R / T / 0.01
 
 
+            println("G_H2: " + G_H2)
+            println("G_HCl: " + G_HCl)
+
+            println("G_AlCl: " + G_AlCl)
+            println("ln(G_AlCl): " + Math.log(Math.abs(G_AlCl)))
+
+            println("G_AlCl2: " + G_AlCl2)
+            println("ln(G_AlCl2): " + Math.log(Math.abs(G_AlCl2)))
+
+            println("G_AlCl3: " + G_AlCl3)
+            println("ln(G_AlCl3): " + Math.log(Math.abs(G_AlCl3)))
+
+            val V_AL = (G_AlCl + G_AlCl2 + G_AlCl3) * Elements.Al.mu / 2690 * Math.pow(10, 9)
+            println("V_AL: " + V_AL)
+            println("ln(V_AL): " + Math.log(Math.abs(V_AL)))
+
+            a += ((1 / T, Math.log(Math.abs(G_AlCl))))
+            b += ((1 / T, Math.log(Math.abs(G_AlCl2))))
+            c += ((1 / T, Math.log(Math.abs(G_AlCl3))))
+            d += ((1 / T, Math.log(Math.abs(V_AL))))
+
+            println()
+        }
+
+        val chart = XYLineChart(b)
+
+        dataset.addSeries(a.toXYSeries("G_AlCl"))
+        dataset.addSeries(b.toXYSeries("G_AlCl2"))
+        dataset.addSeries(c.toXYSeries("G_AlCl3"))
+        dataset.addSeries(d.toXYSeries("V_AL"))
+
+        chart.plot.setDataset(dataset)
+        chart.show()
+    }
+
+    private def display2() = {
+        var a: mutable.ArrayBuffer[(Double, Double)] = mutable.ArrayBuffer()
+        var b: mutable.ArrayBuffer[(Double, Double)] = mutable.ArrayBuffer()
+        var c: mutable.ArrayBuffer[(Double, Double)] = mutable.ArrayBuffer()
+        var d: mutable.ArrayBuffer[(Double, Double)] = mutable.ArrayBuffer()
+
+        val dataset = new XYSeriesCollection()
+
+        for (t <- 350 until 700 by 10) {
+            val T = t + 273.15
+            val ans = System2.solve(T)
+
+            println("T: " + T)
+            println(ans)
+
+            val G_H2 = D.D_H2(T) * (System2.DP_G.P_H2 - ans.P_H2) / Constants.R / T / 0.01
+            val G_HCl = D.D_HCl(T) * (System2.DP_G.P_HCl - ans.P_HCl) / Constants.R / T / 0.01
+            val G_GaCl = D.D_AlCl(T) * (System2.DP_G.P_GaCl - ans.P_GaCl) / Constants.R / T / 0.01
+            val G_GaCl2 = D.D_AlCl2(T) * (System2.DP_G.P_GaCl2 - ans.P_GaCl2) / Constants.R / T / 0.01
+            val G_GaCl3 = D.D_AlCl3(T) * (System2.DP_G.P_GaCl3 - ans.P_GaCl3) / Constants.R / T / 0.01
 
 
-    def main(args: Array[String]): Unit = {
+            println("G_H2: " + G_H2)
+            println("G_HCl: " + G_HCl)
 
+            println("G_GaCl: " + G_GaCl)
+            println("ln(G_GaCl): " + Math.log(Math.abs(G_GaCl)))
+
+            println("G_GaCl2: " + G_GaCl2)
+            println("ln(G_GaCl2): " + Math.log(Math.abs(G_GaCl2)))
+
+            println("G_GaCl3: " + G_GaCl3)
+            println("ln(G_GaCl3): " + Math.log(Math.abs(G_GaCl3)))
+
+            val V_Ga = (G_GaCl + G_GaCl2 + G_GaCl3) * Elements.Ga.mu / 5900 * Math.pow(10, 9)
+            println("V_Ga: " + V_Ga)
+            println("ln(V_Ga): " + Math.log(Math.abs(V_Ga)))
+
+            a += ((1 / T, Math.log(Math.abs(G_GaCl))))
+            b += ((1 / T, Math.log(Math.abs(G_GaCl2))))
+            c += ((1 / T, Math.log(Math.abs(G_GaCl3))))
+            d += ((1 / T, Math.log(Math.abs(V_Ga))))
+
+            println()
+        }
+
+        val chart = XYLineChart(b)
+
+        dataset.addSeries(a.toXYSeries("G_GaCl"))
+        dataset.addSeries(b.toXYSeries("G_GaCl2"))
+        dataset.addSeries(c.toXYSeries("G_GaCl3"))
+        dataset.addSeries(d.toXYSeries("V_Ga"))
+
+        chart.plot.setDataset(dataset)
+        chart.show()
+    }
+
+
+    override def main(args: Array[String]): Unit = {
+
+        display2()
 
     }
 }

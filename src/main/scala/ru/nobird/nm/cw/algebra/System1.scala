@@ -6,8 +6,6 @@ import ru.nobird.nm.cw.{D, K}
   * Created by ruslandavletshin on 31/05/2017.
   */
 object System1 {
-    def EPS = 0.001
-
     case class Pressures(P_AlCl: Double, P_AlCl2: Double, P_AlCl3: Double, P_HCl: Double, P_H2: Double) {
         def -(that: Pressures): Pressures
             = Pressures(P_AlCl - that.P_AlCl, P_AlCl2 - that.P_AlCl2, P_AlCl3 - that.P_AlCl3, P_HCl - that.P_HCl, P_H2 - that.P_H2)
@@ -15,7 +13,7 @@ object System1 {
         def toArray: Array[Double] = Array(P_AlCl, P_AlCl2, P_AlCl3, P_HCl, P_H2)
     }
 
-    private lazy val DP_G = Pressures(0, 0, 0, 10000, 0)
+    lazy val DP_G = Pressures(0, 0, 0, 10000, 0)
 
     private def preF(T: Double, P_G: Pressures) = (P_E: Pressures) =>
         Array(
@@ -55,7 +53,7 @@ object System1 {
         var x = Pressures(1, 1, 1, 1, 1)
         var y = iterate(x)
 
-        while ((x - y).toArray.map{ Math.abs }.max > EPS) {
+        while ((x - y).toArray.map{ Math.abs }.max > Matrix.EPS) {
             x = y
             y = iterate(y)
         }

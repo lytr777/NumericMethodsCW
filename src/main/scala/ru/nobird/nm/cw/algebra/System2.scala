@@ -13,7 +13,7 @@ object System2 {
         def toArray: Array[Double] = Array(P_GaCl, P_GaCl2, P_GaCl3, P_HCl, P_H2)
     }
 
-    private lazy val DP_G = Pressures(0, 0, 0, 10000, 0)
+    lazy val DP_G = Pressures(0, 0, 0, 10000, 0)
 
     private def preF(T: Double, P_G: Pressures) = (P_E: Pressures) =>
         Array(
@@ -35,4 +35,28 @@ object System2 {
             Array(2 * P_E.P_HCl, 2 * P_E.P_HCl, 6 * Math.pow(P_E.P_HCl, 5), -D.D_HCl(T), -D.D_HCl(T)),
             Array(-K.K4(T) * Math.pow(P_E.P_GaCl, 2), -K.K5(T) * P_E.P_GaCl2, -3 * K.K6(T) * Math.pow(P_E.P_GaCl3 * P_E.P_H2, 2), -2 * D.D_H2(T), 0)
         )
+
+    def solve(T: Double): Pressures = {
+        val f = preF(T, DP_G)
+        val J = preJ(T)
+
+        def iterate(x0: Pressures): Pressures = {
+            val f_c = f(x0)
+            val J_T = J(x0).transpose
+
+            val x_a = Matrix.multiply(Matrix.inverse(J_T), f_c)
+
+            x0 - Pressures(x_a(0), x_a(1), x_a(2), x_a(3), x_a(4))
+        }
+
+        var x = Pressures(1, 1, 1, 1, 1)
+        var y = iterate(x)
+
+        while ((x - y).toArray.map{ Math.abs }.max > Matrix.EPS) {
+            x = y
+            y = iterate(y)
+        }
+
+        y
+    }
 }

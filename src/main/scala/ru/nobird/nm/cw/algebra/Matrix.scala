@@ -86,4 +86,10 @@ object Matrix {
         res
     }
 
+    def mult(a: Array[Array[Double]], b: Array[Array[Double]]):Array[Array[Double]] = {
+        for (row <- a)
+            yield for(col <- b.transpose)
+                yield (row zip col map Function.tupled(_ * _)).sum
+    }
+
 }

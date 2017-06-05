@@ -60,8 +60,8 @@ object K {
 
 
     def K1(T: Double): Double = prepareK(dG1)(T)
-    def K2(T: Double): Double = prepareK(dG2)(T)// * Constants.Pa
-    def K3(T: Double): Double = prepareK(dG3)(T)// * Constants.Pa * Constants.Pa
+    def K2(T: Double): Double = prepareK(dG2)(T)
+    def K3(T: Double): Double = prepareK(dG3)(T)
     def K4(T: Double): Double = prepareK(dG4)(T)
     def K5(T: Double): Double = prepareK(dG5)(T)
     def K6(T: Double): Double = prepareK(dG6)(T)

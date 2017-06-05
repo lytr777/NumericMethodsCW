@@ -142,43 +142,71 @@ object Main extends App with scalax.chart.module.Charting  {
         val a: mutable.ArrayBuffer[(Double, Double)] = mutable.ArrayBuffer()
         val b: mutable.ArrayBuffer[(Double, Double)] = mutable.ArrayBuffer()
 
+        val dsAlCl3x0: mutable.ArrayBuffer[(Double, Double)] = mutable.ArrayBuffer()
+        val dsAlCl3x1: mutable.ArrayBuffer[(Double, Double)] = mutable.ArrayBuffer()
+
+        val dsGaClx0: mutable.ArrayBuffer[(Double, Double)] = mutable.ArrayBuffer()
+        val dsGaClx1: mutable.ArrayBuffer[(Double, Double)] = mutable.ArrayBuffer()
+
+        val dsVAlGaNx0: mutable.ArrayBuffer[(Double, Double)] = mutable.ArrayBuffer()
+        val dsVAlGaNx1: mutable.ArrayBuffer[(Double, Double)] = mutable.ArrayBuffer()
+
         val dataset = new XYSeriesCollection()
 
         val T = 1100 + 273.15
+
+        def it(h2_p: Double, x_g: Double) = {
+            val ans = System3.solve(h2_p, x_g)
+            println(ans)
+
+            val G_AlCl3 = D.D_AlCl3(T) * (System3.DP_G(h2_p, ans.x).P_AlCl3 - ans.P_AlCl3) / Constants.R / T / Constants.delta
+            println("G_AlCl3: " + G_AlCl3)
+
+            val G_GaCl = D.D_GaCl(T) * (System3.DP_G(h2_p, ans.x).P_GaCl - ans.P_GaCl) / Constants.R / T / Constants.delta
+            println("G_GaCl: " + G_GaCl)
+
+            val V_AlGaN = (G_AlCl3 * Elements.AlN.mu / 3200 + G_GaCl * Elements.GaN.mu / 6150) * Math.pow(10, 9)
+
+
+            println("V_AlGaN: " + V_AlGaN)
+
+            if (h2_p == 0.0) {
+                a += ((x_g, ans.x))
+                dsAlCl3x0 += ((x_g, G_AlCl3))
+                dsGaClx0 += ((x_g, G_GaCl))
+                dsVAlGaNx0 += ((x_g, V_AlGaN))
+            } else {
+                b += ((x_g, ans.x))
+                dsAlCl3x1 += ((x_g, G_AlCl3))
+                dsGaClx1 += ((x_g, G_GaCl))
+                dsVAlGaNx1 += ((x_g, V_AlGaN))
+            }
+        }
+
         for (x_g <- 0.0 until 1.0 by 0.05) {
             println("x_g: " + x_g)
-
-            def it(h2_p: Double, d: mutable.ArrayBuffer[(Double, Double)]) = {
-                val ans = System3.solve(h2_p, x_g)
-                println(ans)
-
-                val G_AlCl3 = D.D_AlCl3(T) * (System3.DP_G(h2_p, ans.x).P_AlCl3 - ans.P_AlCl3) / Constants.R / T / Constants.delta
-                println("G_AlCl3: " + G_AlCl3)
-
-                val G_GaCl = D.D_GaCl(T) * (System3.DP_G(h2_p, ans.x).P_GaCl - ans.P_GaCl) / Constants.R / T / Constants.delta
-                println("G_GaCl: " + G_GaCl)
-
-                val V_AlGaN = (G_AlCl3 * Elements.AlN.mu / 3200 + G_GaCl * Elements.GaN.mu / 6150) * Math.pow(10, 9)
-
-
-                println("V_AlGaN: " + V_AlGaN)
-                d += ((x_g, ans.x))
-            }
-
             println("H2 p: 0")
-            it(0, a)
+            it(0, x_g)
             println()
             println("H2 p: 0.1")
-            it(0.1, b)
-
-
+            it(0.1, x_g)
             println()
         }
 
-        val chart = XYLineChart(a)
+        val chart = XYLineChart(dsAlCl3x0)
+//
+//        dataset.addSeries(a.toXYSeries("x at H2 = 0"))
+//        dataset.addSeries(b.toXYSeries("x at H2 = 0.1"))
 
-        dataset.addSeries(a.toXYSeries("V_AlGaN at H2 = 0"))
-        dataset.addSeries(b.toXYSeries("V_AlGaN at H2 = 0.1"))
+//        dataset.addSeries(dsAlCl3x0.toXYSeries("G_AlCl3 at H2 = 0"))
+//        dataset.addSeries(dsAlCl3x1.toXYSeries("G_AlCl3 at H2 = 0.1"))
+//
+//        dataset.addSeries(dsGaClx0.toXYSeries("G_GaCl at H2 = 0"))
+//        dataset.addSeries(dsGaClx1.toXYSeries("G_GaCl at H2 = 0.1"))
+
+        dataset.addSeries(dsVAlGaNx0.toXYSeries("V_AlGaN at H2 = 0"))
+        dataset.addSeries(dsVAlGaNx1.toXYSeries("V_AlGaN at H2 = 0.1"))
+
 
         chart.plot.setDataset(dataset)
         chart.show()

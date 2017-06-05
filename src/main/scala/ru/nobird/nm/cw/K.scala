@@ -60,15 +60,15 @@ object K {
 
 
     def K1(T: Double): Double = prepareK(dG1)(T)
-    def K2(T: Double): Double = prepareK(dG2)(T)
-    def K3(T: Double): Double = prepareK(dG3)(T)
+    def K2(T: Double): Double = prepareK(dG2)(T) * Constants.Pa
+    def K3(T: Double): Double = prepareK(dG3)(T) * Constants.Pa * Constants.Pa
     def K4(T: Double): Double = prepareK(dG4)(T)
-    def K5(T: Double): Double = prepareK(dG5)(T)
-    def K6(T: Double): Double = prepareK(dG6)(T)
+    def K5(T: Double): Double = prepareK(dG5)(T) * Constants.Pa
+    def K6(T: Double): Double = prepareK(dG6)(T) * Constants.Pa * Constants.Pa
     def K7(T: Double): Double = prepareK(dG7)(T)
     def K8(T: Double): Double = prepareK(dG8)(T)
     def K9(T: Double): Double = prepareK(dG9)(T)
-    def K10(T: Double): Double = prepareK(dG10)(T)
+    def K10(T: Double): Double = prepareK(dG10)(T) * Constants.Pa
     def K11(T: Double): Double = prepareK(dG11)(T)
     def K12(T: Double): Double = prepareK(dG12)(T)
 }

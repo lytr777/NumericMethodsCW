@@ -29,7 +29,7 @@ object Matrix {
     }
 
     def inverse(m: Array[Array[Double]]): Array[Array[Double]] = {
-        val dg = m.clone()
+        val dg = m.map(_.clone())
         val inv = E(m.length)
 
         for (k <- m.indices) {
@@ -84,6 +84,12 @@ object Matrix {
             }
         }
         res
+    }
+
+    def mult(a: Array[Array[Double]], b: Array[Array[Double]]):Array[Array[Double]] = {
+        for (row <- a)
+            yield for(col <- b.transpose)
+                yield (row zip col map Function.tupled(_ * _)).sum
     }
 
 }

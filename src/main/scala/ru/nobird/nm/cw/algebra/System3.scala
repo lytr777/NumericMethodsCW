@@ -23,13 +23,13 @@ object System3 {
             P_E.P_GaCl * P_E.P_NH3 - K.K10(T) * (1 - P_E.x) * P_E.P_HCl * P_E.P_H2,
 
             D.D_HCl(T) * (P_G.P_HCl - P_E.P_HCl) + 2 * D.D_H2(T) * (P_G.P_H2 - P_E.P_H2)
-                + 3 * D.D_NH3(P_G.P_NH3 - P_E.P_NH3),
+                + 3 * D.D_NH3(T) * (P_G.P_NH3 - P_E.P_NH3),
 
             3 * D.D_AlCl3(T) * (P_G.P_AlCl3 - P_E.P_AlCl3) + D.D_GaCl(T) * (P_G.P_GaCl - P_E.P_GaCl)
                 + D.D_HCl(T) * (P_G.P_HCl - P_E.P_HCl),
 
             D.D_AlCl3(T) * (P_G.P_AlCl3 - P_E.P_AlCl3) + D.D_GaCl(T) * (P_G.P_GaCl - P_E.P_GaCl)
-                - D.D_NH3(P_G.P_NH3 - P_E.P_NH3),
+                - D.D_NH3(T) * (P_G.P_NH3 - P_E.P_NH3),
 
             (1 - P_E.x) * D.D_AlCl3(T) * (P_G.P_AlCl3 - P_E.P_AlCl3) - P_E.x * D.D_GaCl(T) * (P_G.P_GaCl - P_E.P_GaCl)
         )
@@ -59,7 +59,7 @@ object System3 {
             x0 - Pressures(x_a(0), x_a(1), x_a(2), x_a(3), x_a(4), x_a(5))
         }
 
-        var x = Pressures(1, 1, 1000, 1, 1, 1)
+        var x = Pressures(100, 1, 10000, 1, 1, 0.5)
         var y = iterate(x)
 
         while ((x - y).toArray.map{ Math.abs }.max > Matrix.EPS) {

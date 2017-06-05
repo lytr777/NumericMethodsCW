@@ -9,4 +9,7 @@ object Constants {
 
     val R = 8.314
 
+
+    val delta = 0.01
+
 }

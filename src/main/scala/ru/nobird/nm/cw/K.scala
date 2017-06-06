@@ -5,7 +5,7 @@ package ru.nobird.nm.cw
   */
 object K {
 
-    private def X(T: Double) = T / Math.pow(10, 4)
+    private def X(T: Double) = T / 1e4
 
     private def preparePhi(e: Element) = (X: Double) =>
         e.f1 + e.f2 * Math.log(X) + e.f3 / (X * X) + e.f4 / X + e.f5 * X + e.f6 * (X * X) + e.f7 * Math.pow(X, 3)
@@ -56,7 +56,7 @@ object K {
 
 
     private def prepareK(dG: Double => Double) = (T: Double) =>
-        Math.exp(-dG(T)/(Constants.R * T)) / Constants.Pa
+        Math.exp(-dG(T)/(Constants.R / 1e3 * T)) / Constants.Pa
 
 
     def K1(T: Double): Double = prepareK(dG1)(T)

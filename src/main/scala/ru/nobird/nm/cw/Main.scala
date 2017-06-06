@@ -9,15 +9,6 @@ import scala.collection.mutable
   */
 object Main extends App with scalax.chart.module.Charting  {
 
-    private def X(T: Double) = T / Math.pow(10, 4)
-
-    private def preparePhi(e: Element) = (X: Double) =>
-        e.f1 + e.f2 * Math.log(X) + e.f3 / (X * X) + e.f4 / X + e.f5 * X + e.f6 * (X * X) + e.f7 * Math.pow(X, 3)
-
-    private def prepareG(e: Element) = (T: Double) =>
-        e.H - preparePhi(e)(X(T)) * T
-
-
     private def display1() = {
         var a: mutable.ArrayBuffer[(Double, Double)] = mutable.ArrayBuffer()
         var b: mutable.ArrayBuffer[(Double, Double)] = mutable.ArrayBuffer()
@@ -52,7 +43,7 @@ object Main extends App with scalax.chart.module.Charting  {
             println("G_AlCl3: " + G_AlCl3)
             println("ln(G_AlCl3): " + Math.log(Math.abs(G_AlCl3)))
 
-            val V_AL = (G_AlCl + G_AlCl2 + G_AlCl3) * Elements.Al.mu / 2690 * Math.pow(10, 9)
+            val V_AL = (G_AlCl + G_AlCl2 + G_AlCl3) * Elements.Al.mu / 2690 * 1e9
             println("V_AL: " + V_AL)
             println("ln(V_AL): " + Math.log(Math.abs(V_AL)))
 
@@ -114,7 +105,7 @@ object Main extends App with scalax.chart.module.Charting  {
             println("G_GaCl3: " + G_GaCl3)
             println("ln(G_GaCl3): " + Math.log(Math.abs(G_GaCl3)))
 
-            val V_Ga = (G_GaCl + G_GaCl2 + G_GaCl3) * Elements.Ga.mu / 5900 * Math.pow(10, 9)
+            val V_Ga = (G_GaCl + G_GaCl2 + G_GaCl3) * Elements.Ga.mu / 5900 * 1e9
             println("V_Ga: " + V_Ga)
             println("ln(V_Ga): " + Math.log(Math.abs(V_Ga)))
 
@@ -165,7 +156,7 @@ object Main extends App with scalax.chart.module.Charting  {
             val G_GaCl = D.D_GaCl(T) * (System3.DP_G(h2_p, ans.x).P_GaCl - ans.P_GaCl) / Constants.R / T / Constants.delta
             println("G_GaCl: " + G_GaCl)
 
-            val V_AlGaN = (G_AlCl3 * Elements.AlN.mu / 3200 + G_GaCl * Elements.GaN.mu / 6150) * Math.pow(10, 9)
+            val V_AlGaN = (G_AlCl3 * Elements.AlN.mu / 3200 + G_GaCl * Elements.GaN.mu / 6150) * 1e9
 
 
             println("V_AlGaN: " + V_AlGaN)
@@ -195,8 +186,8 @@ object Main extends App with scalax.chart.module.Charting  {
 
         val chart = XYLineChart(dsAlCl3x0)
 //
-//        dataset.addSeries(a.toXYSeries("x at H2 = 0"))
-//        dataset.addSeries(b.toXYSeries("x at H2 = 0.1"))
+        dataset.addSeries(a.toXYSeries("x at H2 = 0"))
+        dataset.addSeries(b.toXYSeries("x at H2 = 0.1"))
 
 //        dataset.addSeries(dsAlCl3x0.toXYSeries("G_AlCl3 at H2 = 0"))
 //        dataset.addSeries(dsAlCl3x1.toXYSeries("G_AlCl3 at H2 = 0.1"))
@@ -204,8 +195,8 @@ object Main extends App with scalax.chart.module.Charting  {
 //        dataset.addSeries(dsGaClx0.toXYSeries("G_GaCl at H2 = 0"))
 //        dataset.addSeries(dsGaClx1.toXYSeries("G_GaCl at H2 = 0.1"))
 
-        dataset.addSeries(dsVAlGaNx0.toXYSeries("V_AlGaN at H2 = 0"))
-        dataset.addSeries(dsVAlGaNx1.toXYSeries("V_AlGaN at H2 = 0.1"))
+//        dataset.addSeries(dsVAlGaNx0.toXYSeries("V_AlGaN at H2 = 0"))
+//        dataset.addSeries(dsVAlGaNx1.toXYSeries("V_AlGaN at H2 = 0.1"))
 
 
         chart.plot.setDataset(dataset)

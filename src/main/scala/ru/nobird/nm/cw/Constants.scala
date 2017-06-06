@@ -7,7 +7,7 @@ object Constants {
 
     val Pa = 100000.0
 
-    val R = 8.314
+    val R = 8314
 
 
     val delta = 0.01
